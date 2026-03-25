@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+bmo_brain/
 SurfaceGTFS/
 model/
 SurfaceGTFS.zip
