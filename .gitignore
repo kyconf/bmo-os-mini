@@ -9,6 +9,8 @@ SurfaceGTFS.zip
 *.zip
 
 
+.onnx
+en_US-lessac-medium.onnx
 model/
 vosk-model-*/
 
