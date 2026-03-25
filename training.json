@@ -1,0 +1,112 @@
+{
+  "language": "en",
+  "intents": {
+    "GreetUser": {
+      "utterances": [
+        { "data": [ { "text": "Hello BMO" } ] },
+        { "data": [ { "text": "Greetings BMO" } ] },
+        { "data": [ { "text": "Hey there buddy" } ] }
+      ]
+    },
+    "GetTime": {
+      "utterances": [
+      { "data": [ { "text": "BMO, what time is it?" } ] },
+      { "data": [ { "text": "What's the time?" } ] },
+      { "data": [ { "text": "Do you have the time, BMO?" } ] },
+      { "data": [ { "text": "Tell me the time" } ] },
+      { "data": [ { "text": "What time is it right now?" } ] }
+    ]
+    },
+    "TellJoke": {
+      "utterances": [
+        { "data": [ { "text": "BMO, tell me a joke" } ] },
+        { "data": [ { "text": "Make me laugh" } ] },
+        { "data": [ { "text": "Do you know any jokes?" } ] }
+      ]
+    },
+    "BMOBeep": {
+      "utterances": [
+        { "data": [ { "text": "BMO, Beep Beep " } ] },
+        { "data": [ { "text": "Beep Beep" } ] }
+      ]
+    },
+    "IsRobot": {
+      "utterances": [
+        { "data": [ { "text": "BMO, are you an i Pad?" } ] },
+        { "data": [ { "text": "BMO, are you a Robot?" } ] }
+      ]
+    },
+      "Birthday": {
+      "utterances": [
+        { "data": [ { "text": "BMO, it's my birthday" } ] },
+        { "data": [ { "text": "Happy birthday BMO" } ] },
+        { "data": [ { "text": "BMO it's my friend's birthday" } ] }
+      ]
+    },
+        "Quote": {
+      "utterances": [
+        { "data": [ { "text": "BMO, give me a quote" } ] }
+      ]
+    },
+        "PlaySong": {
+      "utterances": [
+        { "data": [ { "text": "BMO, play me a song" } ] }
+      ]
+    },
+        "DoImpression": {
+      "utterances": [
+        { "text": "BMO, do an impression of " }, { "text": "Cartman", "entity": "impression_name" }
+      ]
+    },
+        "SetTimer": {
+"utterances": [
+    {
+      "data": [
+        { "text": "BMO set a timer for " },
+        { "text": "5", "entity": "duration_value" },
+        { "text": " " },
+        { "text": "minutes", "entity": "duration_unit" }
+      ]
+    },
+    {
+      "data": [
+        { "text": "timer for " },
+        { "text": "10", "entity": "duration_value" },
+        { "text": " " },
+        { "text": "seconds", "entity": "duration_unit" }
+      ]
+    },
+    {
+      "data": [
+        { "text": "set an " },
+        { "text": "hour", "entity": "duration_unit" },
+        { "text": " timer" }
+      ]
+    }
+  ]
+    },
+        "StopAction": {
+      "utterances": [
+        { "data": [ { "text": "BMO, stop" } ] },
+        { "data": [ { "text": "BMO, cancel" } ] }
+      ]
+    },
+
+        "GetWeather": {
+      "utterances": [
+        { "data": [ { "text": "BMO, what is the weather" } ] },
+        { "data": [ { "text": "Is it raining outside" } ] },
+        { "data": [ { "text": "What is the temperature outside" } ] }
+      ]
+    },
+  "entities": {
+    "impression_name": {
+      "data": [
+        { "value": "Adventure Time theme", "synonyms": ["cartman", "eric"] },
+        { "value": "Fry Song", "synonyms": ["Daddy why did you eat my fries"] }
+      ]
+    },
+    "snips/duration": {}
+  }
+}
+}
