@@ -17,7 +17,7 @@ snips_trainer.py
 en_US-lessac-medium.onnx
 model/
 vosk-model-*/
-
+voice.py
 .env
 venv/
 env/
