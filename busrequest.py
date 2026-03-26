@@ -2,6 +2,7 @@ import requests
 from google.transit import gtfs_realtime_pb2
 import time
 import csv
+import displaytext
 
 # Remember to replace the .zip (SURFACEGTFS) once a month. 
 # TTC frequently updates stop IDs, adds buses, etc. 
@@ -12,7 +13,7 @@ TARGET_STOP_ID = "11242"
 
 
 
-def get_bus_predictions():
+def get_bus():
     stop_names = {}
     with open('SurfaceGTFS/stops.txt', mode='r') as f:
         for row in csv.DictReader(f):
@@ -64,20 +65,40 @@ def get_bus_predictions():
                         v_info = live_vehicles.get(trip_id, {"bus_no": "Unknown", "crowd": "N/A"})
                        
                         headsign = trip_branches.get(trip_id, "Route Unknown")
+                        
+                        if "Route Unknown" not in headsign: 
 
-                        predictions.append({
-                            "headsign": headsign,
-                            "minutes": minutes_away,
-                            "bus": v_info['bus_no'],
-                            "crowd": v_info['crowd']
-                        })
+                            splitword = headsign.split()
+                            hssplit = splitword[2:4]
+                            shortened = " ".join(hssplit)
+
+                            predictions.append({
+                                "headsign": shortened,
+                                "minutes": minutes_away,
+                                "bus": v_info['bus_no'],
+                                "crowd": v_info['crowd']
+                            })
 
     predictions.sort(key=lambda x: x['minutes'])
     
+
+    bus_strings = []
+
+
+
     print(f"\n--- Next 4 Buses for {stop_names.get(TARGET_STOP_ID, TARGET_STOP_ID)} ---")
     for p in predictions[:4]:
+
+        line = f"{p['headsign']} | {p['minutes']} min"
+
+        bus_strings.append(line)
         print(f"{p['headsign']} | {p['minutes']} min ")
 
-# Run the robot
+    
+    stop_title = stop_names.get(TARGET_STOP_ID, TARGET_STOP_ID)
+    bus_strings.insert(0, f"-- {stop_title} --")
+    displaytext.print_text(bus_strings, 5)
+
+
 if __name__ == "__main__":
-    get_bus_predictions()
+    get_bus()

@@ -6,4 +6,8 @@ pip install requirements.txt
 
 source bmo_brain/bin/activate
 
+
 lois/cartman/
+
+
+For my reference:

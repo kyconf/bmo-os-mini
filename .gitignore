@@ -8,8 +8,11 @@ SurfaceGTFS/
 model/
 SurfaceGTFS.zip
 *.zip
-
-
+bmo_stable_env
+forcetrain.py
+intent_checker.py
+debuggerpy.py
+snips_trainer.py
 .onnx
 en_US-lessac-medium.onnx
 model/

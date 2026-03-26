@@ -55,11 +55,19 @@
     },
         "DoImpression": {
       "utterances": [
+        { "text": "BMO, do an impression of " }, { "text": "Cartman", "entity": "impression_name" },
         { "text": "BMO, do an impression of " }, { "text": "Cartman", "entity": "impression_name" }
       ]
     },
+        "GetBus": {
+      "utterances": [
+        { "text": "BMO, what time is the next bus?" },
+        { "text": "What time is the next bus?" }
+      ]
+    },
+    
         "SetTimer": {
-"utterances": [
+      "utterances": [
     {
       "data": [
         { "text": "BMO set a timer for " },
