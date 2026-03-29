@@ -4,6 +4,10 @@ import busrequest
 import snips_trainer
 import displaytext
 import video
+import gzip
+import pickle
+import rhasspynlu
+import getschedule
 from vosk import Model, KaldiRecognizer
 
 pygame.init()
@@ -37,17 +41,13 @@ print("B.MO OS Initialized...")
 running = True
 
 
-import gzip
-import pickle
-import rhasspynlu
-
 def fast_load_brain(pickle_path="bmo_brain.pbz2"):
     try:
         with gzip.open(pickle_path, "rb") as f:
             print("BMO: Loading pre-trained brain... (Fast Boot)")
             return pickle.load(f)
     except FileNotFoundError:
-        print("❌ ERROR: bmo_brain.pbz2 not found! Run 'python3.10 snips_trainer.py' first.")
+        print("model brain not found, train it first.")
         exit(1)
 
 bmo_graph = fast_load_brain()
@@ -67,17 +67,21 @@ def parse_voice(text):
         return intent_name, result.intent.confidence, slots
     return None, 0, {}
 
+video.play_video("morning")
+
 while running:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT: running = False
+    
+
 
     data = stream.read(4000, exception_on_overflow=False)
     if rec.AcceptWaveform(data):
         result = json.loads(rec.Result())
         text = result['text'].lower()
         
-        bmo_aliases = ["be mo", "bee mo", "beam oh", "b moe", "b move", "below", "dino", "the mo", "bmouth", "the know", "bmore", "the now", "the ammo", "be no", "v know", "bmow", "be know", "the email", "email", "beamer", "the my", "demo"]
+        bmo_aliases = ["be mo", "bee mo", "beam oh", "b moe", "b move", "below", "dino", "the mo", "bmouth", "the know", "bmore", "the now", "the ammo", "be no", "v know", "bmow", "be know", "the email", "email", "beamer", "the my", "demo", "memo", "be may", "the female"]
         for alias in bmo_aliases:
             if alias in text:
                 text = text.replace(alias, "bmo")
@@ -109,15 +113,15 @@ while running:
             print(f"   Detected Intent: {intent}")
             print(f"   Confidence:      {probability:.2f} ({probability * 100:.1f}%)")
             
-            if intent and probability > 0.6:
+            if intent and probability > 0.50:
                 print(f"Brain match! Intent: {intent}")
                 is_thinking = True
                 
                 if intent == "greetuser":
-                    video.play_video("hellobmo")
+                    video.play_video("hellors")
                 
                 elif intent == "gettime":
-                    displaytext.print_time()
+                    displaytext.print_time(screen, width, height)
 
                 elif intent == "telljoke":
                     handle_tell_joke(slots)
@@ -134,14 +138,20 @@ while running:
                 elif intent == "playsong":
                     video.play_video("Daisy")
                 elif intent == "getbus":
-                    busrequest.get_bus()
+                    busrequest.get_bus(screen,width,height)
+                elif intent == "loveyou":
+                    video.play_video("loveyou")
+                elif intent == "getsched":
+                    getschedule.main()
+
 
                 is_thinking = False
                 is_awake = False 
             else:
                 video.play_video("gameover")
                 print("Brain didn't understand that command.")
-
+                text = ""
+                is_awake = False
 
         if is_awake and (time.time() - wake_time > WAKE_DURATION):
             print("B.MO is going back to sleep...")

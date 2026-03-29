@@ -9,11 +9,12 @@ import displaytext
 TRIPS_URL = "https://bustime.ttc.ca/gtfsrt/trips"
 VEHICLES_URL = "https://bustime.ttc.ca/gtfsrt/vehicles"
 # replace this with the internal stop_id you found in stops.txt
+# i only did the stop near me because i didnt need anything else
 TARGET_STOP_ID = "11242" 
 
 
 
-def get_bus():
+def get_bus(screen, width, height):
     stop_names = {}
     with open('SurfaceGTFS/stops.txt', mode='r') as f:
         for row in csv.DictReader(f):
@@ -89,7 +90,7 @@ def get_bus():
     print(f"\n--- Next 4 Buses for {stop_names.get(TARGET_STOP_ID, TARGET_STOP_ID)} ---")
     for p in predictions[:4]:
 
-        line = f"{p['headsign']} | {p['minutes']} min"
+        line = f"{p['headsign']} -> {p['minutes']} min"
 
         bus_strings.append(line)
         print(f"{p['headsign']} | {p['minutes']} min ")
@@ -97,7 +98,7 @@ def get_bus():
     
     stop_title = stop_names.get(TARGET_STOP_ID, TARGET_STOP_ID)
     bus_strings.insert(0, f"-- {stop_title} --")
-    displaytext.print_text(bus_strings, 5)
+    displaytext.print_text(bus_strings, 5, screen, width, height)
 
 
 if __name__ == "__main__":

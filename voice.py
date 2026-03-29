@@ -1,31 +1,32 @@
 import subprocess
 import os
 
+
 def test_bmo_laptop(text, model_path):
-    # Ensure the model exists
     if not os.path.exists(model_path):
-        print(f"Error: Could not find {model_path}")
         return
 
-    print(f"Testing B.MO voice on laptop: '{text}'")
-
+  
+    temp_wav = "bmo_output.wav"
 
     try:
-        # 1. Generate the audio file using Piper
-        command = f'echo "{text}" | piper --model {model_path} --output_file test_bmo.wav'
+
+        clean_text = ", , " + text.strip()
+        
+        scales = "--length_scale 0.85 --noise_scale 0.75 --noise_w 1.0"
+
+        command = f'echo "{clean_text}" | piper --model {model_path} {scales} --output_file {temp_wav}'
+        
+
         subprocess.run(command, shell=True, check=True)
-        
 
-        if os.name == 'posix':  # Mac or Linux
-            play_cmd = "afplay test_bmo.wav" if os.uname().sysname == 'Darwin' else "aplay test_bmo.wav"
-        else:  # Windows
-            play_cmd = "start test_bmo.wav"
-            
-        subprocess.run(play_cmd, shell=True)
-        print("Success!")
-        
+    
+        # 'afplay' on Mac or 'aplay' on Pi
+        subprocess.run(f"afplay {temp_wav}", shell=True)
+
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"BMO Error: {e}")
 
-# Run the test
-test_bmo_laptop("Mathematical! I am a human living robot!", "en_US-lessac-medium.onnx")
+
+if __name__ == "__main__":
+    test_bmo_laptop("    I didn't hear that! it's 2:30 pm.", "en_US-lessac-medium.onnx")

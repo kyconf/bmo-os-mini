@@ -4,10 +4,8 @@ from datetime import datetime
 import time
 import busrequest
 
-def print_text(text, duration):
-    pygame.init()
-    width, height = 480, 320
-    screen = pygame.display.set_mode((width, height))
+def print_text(text, duration, screen, width, height):
+
     pygame.display.set_caption("BMO Face")
 
 
@@ -55,16 +53,14 @@ def print_text(text, duration):
     
         
         pygame.display.flip()       
+        time.sleep(0.05)
+    return
 
-    pygame.quit()
-    sys.exit()
-    
-
-def print_time():
+def print_time(screen, width, height):
     # you can change this depending on the size of your screen (i used a 3.5 TFT)
-    pygame.init()
+ 
     width, height = 480, 320
-    screen = pygame.display.set_mode((width, height))
+
     pygame.display.set_caption("BMO Face")
 
 
@@ -106,10 +102,12 @@ def print_time():
         screen.fill(BMO_GREEN)       
         screen.blit(text_surface, text_rect)
         
-        pygame.display.flip()       
+        pygame.display.flip()     
 
-    pygame.quit()
-    sys.exit()
+        time.sleep(0.05)  
+
+    return
+
 
 if __name__ in "__main__":
     print_text("hello", 5)

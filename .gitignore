@@ -18,6 +18,7 @@ en_US-lessac-medium.onnx
 model/
 vosk-model-*/
 voice.py
+token.json
 .env
 venv/
 env/
@@ -25,3 +26,4 @@ env/
 
 .DS_Store
 *.swp
+credentials.json
