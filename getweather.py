@@ -1,29 +1,49 @@
 import asyncio
-from env_canada import ECWeather
+import httpx
 
 async def get_north_york_weather():
-    #north york
-    ec = ECWeather(station_id='ON/s0000395')
-    await ec.update()
-
-    temp = ec.conditions.get('temperature', {}).get('value')
+    url = "https://weather.gc.ca/api/app/v3/en/Location/43.762,-79.410?type=city"
     
-    # Environment Canada Logic: 
-    # If it's winter, it uses wind_chill. If it's summer, it uses humidex.
-    feels_like = ec.conditions.get('wind_chill', {}).get('value') or \
-                 ec.conditions.get('humidex', {}).get('value') or temp
-    
-    # High-level condition (e.g., "Cloudy", "Light Rain")
-    condition = ec.conditions.get('condition', {}).get('value')
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"
+    }
 
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        data = response.json()
+        print(data)
+
+    # The API returns a list, grab the first result
+    if isinstance(data, list) and len(data) > 0:
+        data = data[0]
+    else:
+        return {"error": "Unexpected data format or empty list"}
+
+    obs = data.get('observation', {})
+   
+    temp = obs.get('temperature', {}).get('metric')
+
+    feels_like_val = obs.get('feelsLike', {}).get('metric')
+ 
+    feels_like = feels_like_val if feels_like_val else temp
+    
+    # Extract Condition
+    condition = obs.get('condition', 'Unknown')
+    province = obs.get('provinceCode', {})
     return {
-        "location": "North York",
+        "location": data.get('displayName', 'North York'),
+        "provinceCode": province,
         "temp": temp,
         "feels_like": feels_like,
         "condition": condition
     }
+
 if __name__ == "__main__":
     result = asyncio.run(get_north_york_weather())
-    print(f"B.MO Report for {result['location']}:")
-    print(f"Temp: {result['temp']}°C (Feels like {result['feels_like']}°C)")
-    print(f"Conditions: {result['condition']}")
+    
+    if "error" in result:
+        print(f"Error: {result['error']}")
+    else:
+        print(f"B.MO Report for {result['location']}, {result['provinceCode']}:")
+        print(f"Temp: {result['temp']}°C (Feels like {result['feels_like']}°C)")
+        print(f"Conditions: {result['condition']}")

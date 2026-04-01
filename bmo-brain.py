@@ -33,7 +33,7 @@ stream.start_stream()
 is_awake = False
 last_blink_time = time.time()
 wake_time = 0 
-WAKE_DURATION = 5.0 
+WAKE_DURATION = 3.0 
 
 
 
@@ -44,7 +44,7 @@ running = True
 def fast_load_brain(pickle_path="bmo_brain.pbz2"):
     try:
         with gzip.open(pickle_path, "rb") as f:
-            print("BMO: Loading pre-trained brain... (Fast Boot)")
+            print("BMO OS ACTIVATED")
             return pickle.load(f)
     except FileNotFoundError:
         print("model brain not found, train it first.")
@@ -81,7 +81,7 @@ while running:
         result = json.loads(rec.Result())
         text = result['text'].lower()
         
-        bmo_aliases = ["be mo", "bee mo", "beam oh", "b moe", "b move", "below", "dino", "the mo", "bmouth", "the know", "bmore", "the now", "the ammo", "be no", "v know", "bmow", "be know", "the email", "email", "beamer", "the my", "demo", "memo", "be may", "the female"]
+        bmo_aliases = ["be mo", "bee mo", "beam oh", "b moe", "b move", "below", "dino", "the mo", "bmouth", "the know", "bmore", "the now", "the ammo", "be no", "v know", "bmow", "be know", "the email", "email", "beamer", "the my", "demo", "memo", "be may", "the female", "bmount"]
         for alias in bmo_aliases:
             if alias in text:
                 text = text.replace(alias, "bmo")
@@ -113,16 +113,13 @@ while running:
             print(f"   Detected Intent: {intent}")
             print(f"   Confidence:      {probability:.2f} ({probability * 100:.1f}%)")
             
-            if intent and probability > 0.50:
+            if intent and probability >= 0.50:
                 print(f"Brain match! Intent: {intent}")
                 is_thinking = True
-                
                 if intent == "greetuser":
                     video.play_video("hellors")
-                
                 elif intent == "gettime":
                     displaytext.print_time(screen, width, height)
-
                 elif intent == "telljoke":
                     handle_tell_joke(slots)
                 elif intent == "bmobeep":
@@ -143,8 +140,9 @@ while running:
                     video.play_video("loveyou")
                 elif intent == "getsched":
                     getschedule.main()
+                elif intent == "getweather"
 
-
+                    
                 is_thinking = False
                 is_awake = False 
             else:

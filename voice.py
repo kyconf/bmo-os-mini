@@ -29,4 +29,4 @@ def test_bmo_laptop(text, model_path):
 
 
 if __name__ == "__main__":
-    test_bmo_laptop("    I didn't hear that! it's 2:30 pm.", "en_US-lessac-medium.onnx")
+    test_bmo_laptop("   Yes he is a community hole. Ran through at the most.", "en_US-lessac-medium.onnx")
